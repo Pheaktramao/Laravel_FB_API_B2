@@ -14,5 +14,18 @@ class Post extends Model
         'content',
         'auth_id',
         'tags',
+        'image',
     ];
+
+    public static function list($params)
+    {
+        return self::query();
+    }
+
+    public static function store($request, $id = null)
+    {
+        $data = $request->only('title', 'content', 'auth_id', 'tags', 'image');
+        $data = self::updateOrCreate(['id' => $id], $data);
+        return $data;
+    }
 }
