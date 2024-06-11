@@ -16,9 +16,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // Authentication routes
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 Route::post('/login', [AuthController::class, 'login']);
 Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
 Route::post('/register', [AuthController::class, 'register']);
