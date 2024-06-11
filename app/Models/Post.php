@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Post extends Model
 {
@@ -16,6 +17,11 @@ class Post extends Model
         'tags',
         'image',
     ];
+
+    public function users()
+    {
+        return $this->belongsTo(User::class, 'auth_id', 'id');
+    }
 
     public static function list($params)
     {
