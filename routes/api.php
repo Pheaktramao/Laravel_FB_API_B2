@@ -25,10 +25,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 // ROUTES AUTHENTICATION
-Route::post('/login', [AuthController::class, 'login']);
-Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
-Route::post('/register', [AuthController::class, 'register']);
-Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+
+Route::prefix('auth')->group(function () {
+    Route::post('/login', [AuthController::class, 'login']);
+    Route::post('/register', [AuthController::class, 'register']);
+    Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+    Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
+});
 
 // ROUTES POSTS
 Route::prefix('post')->group(function () {
