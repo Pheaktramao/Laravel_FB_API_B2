@@ -6,7 +6,6 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 
@@ -23,7 +22,8 @@ class AuthController extends Controller
                 'dateOfBirth'=> 'required|date_format:d-m-Y',
                 'phone'=> 'required|string|max:20',
                 'email'=> 'required|string|max:255',
-                'password'=> 'required|string'
+                'password'=> 'required|string',
+                'role'=> 'required|string|in:user,admin'
             ]);
 
             if ($validatorUser->fails()) {
@@ -38,7 +38,8 @@ class AuthController extends Controller
                 'dateOfBirth' => $dateOfBirth,
                 'phone' => $request->phone,
                 'email' => $request->email,
-                'password' =>  bcrypt($request->password)
+                'password' =>  bcrypt($request->password),
+                'role'=>$request->role
             ]);
         
             return Response()->json([
@@ -84,7 +85,7 @@ class AuthController extends Controller
         ]);
     }
 
-    public function logout(Request $request)
+    public function index(Request $request)
     {
         $user = $request->user();
         $permissions = $user->getAllPermissions();
@@ -94,51 +95,4 @@ class AuthController extends Controller
             'data' =>$user,
         ]);
     }
-
-    public function createUser(Request $request)
-    {
-        try {
-            //Validated
-            $validateUser = Validator::make($request->all(), 
-            [
-                'name' => 'required|string',
-                'email' => 'required|email|unique:users,email',
-                'password' => 'required'
-            ]);
-
-            if($validateUser->fails()){
-                return response()->json([
-                    'status' => false,
-                    'message' => 'validation error',
-                    'errors' => $validateUser->errors()
-                ], 401);
-            }
-
-            $user = User::create([
-                'name' => $request->name,
-                'email' => $request->email,
-                'password' => Hash::make($request->password)
-            ]);
-
-            return response()->json([
-                'status' => true,
-                'message' => 'User Created Successfully',
-                'token' => $user->createToken("API TOKEN")->plainTextToken
-            ], 200);
-
-        } catch (\Throwable $th) {
-            return response()->json([
-                'status' => false,
-                'message' => $th->getMessage()
-            ], 500);
-        }
-    }
-
-
-    // public function logout(Request $request){
-    //     $request->user()->currentAccessToken->delete();
-    //     return response()->json([
-    //        'message' => 'Successfully logged out'
-    //     ],200);
-    // }
 }
