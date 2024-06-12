@@ -7,26 +7,27 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Hash;
 
 class AuthController extends Controller
 {
 
     public function register(Request $request): JsonResponse
     {
-            try{
-            $validatorUser = Validator::make($request->all(),
-            [
-                'first_name'=> 'required|string|max:20',
-                'last_name'=> 'required|string|max:20',
-                'dateOfBirth'=> 'required|date_format:d-m-Y',
-                'phone'=> 'required|string|max:20',
-                'email'=> 'required|string|max:255',
-                'password'=> 'required|string',
-                'role'=> 'required|string|in:user,admin'
-            ]);
+        try {
+            $validatorUser = Validator::make(
+                $request->all(),
+                [
+                    'first_name' => 'required|string|max:20',
+                    'last_name' => 'required|string|max:20',
+                    'dateOfBirth' => 'required|date_format:d-m-Y',
+                    'phone' => 'required|string|max:20',
+                    'email' => 'required|string|max:255',
+                    'password' => 'required|string'
+                ]
+            );
 
             if ($validatorUser->fails()) {
                 return response()->json($validatorUser->errors());
@@ -40,8 +41,7 @@ class AuthController extends Controller
                 'dateOfBirth' => $dateOfBirth,
                 'phone' => $request->phone,
                 'email' => $request->email,
-                'password' =>  bcrypt($request->password),
-                'role'=>$request->role
+                'password' =>  bcrypt($request->password)
             ]);
 
             return Response()->json([
@@ -87,16 +87,6 @@ class AuthController extends Controller
         ]);
     }
 
-    // public function index(Request $request)
-    // {
-    //     $user = $request->user();
-    //     $permissions = $user->getAllPermissions();
-    //     $roles = $user->getRoleNames();
-    //     return response()->json([
-    //         'message' => 'Login success',
-    //         'data' =>$user,
-    //     ]);
-    // }
 
     public function createUser(Request $request)
     {
@@ -138,6 +128,7 @@ class AuthController extends Controller
         }
     }
 
+
     public function index(Request $request)
     {
         return response()->json($request->user());
@@ -158,4 +149,3 @@ class AuthController extends Controller
         ]);
     }
 }
-
