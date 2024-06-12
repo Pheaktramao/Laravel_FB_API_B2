@@ -52,7 +52,4 @@ Route::prefix('comment')->group(function () {
     Route::delete('/delete/{id}', [CommentController::class, 'destroy']);
 });
 
-Route::prefix('like')->group(function(){
-    Route::post('/add-like', [LikeController::class, 'addLike']);
-    
-});
+
