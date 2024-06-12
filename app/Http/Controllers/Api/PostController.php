@@ -22,10 +22,23 @@ class PostController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function addPost(Request $request)
     {
-        Post::store($request);
-        return ["success" => true, "Message" =>"Post created successfully"];
+        $request->validate([
+            "image"=>'required',
+            "description"=>'required',
+        ]);
+        $post = Post::create([
+            'image'=>$request->image,
+            'description'=>$request->description,
+            'auth_id'=>Auth()->user()->id,
+        ]);
+        // Post::store($request);
+        return [
+            'success' =>true,
+            'data' =>$post,
+            'message' =>"Post created successfully"
+        ];
     }
 
     /**
@@ -33,8 +46,11 @@ class PostController extends Controller
      */
     public function show(string $id)
     {
-        $post = Post::find($id);
-        return response(['success' => true, 'data' =>$post], 200);
+        $post = Post::show($id);
+        return [
+            'success' => true,
+            'data'=> $post,
+        ];
     }
 
     /**
@@ -43,7 +59,10 @@ class PostController extends Controller
     public function update(Request $request, string $id)
     {
         Post::store($request,$id);
-        return ["success" => true, "Message" =>"Post updated successfully"];
+        return [
+            "success" => true, 
+            "Message" =>"Post updated successfully"
+        ];
 
     }
 
@@ -52,7 +71,10 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        Post::find($id)->delete();
-        return ["success" => true, "Message" =>"Post deleted successfully"];
+        Post::destroy($id);
+        return [
+            "success" => true, 
+            "Message" =>"Post deleted successfully"
+    ];
     }
 }
