@@ -28,6 +28,10 @@ class Post extends Model
         return self::query();
     }
 
+    public function getAllLike(){
+        return $this->hasMany(Like::class, 'post_id');
+    }
+
     public static function store($request, $id = null)
     {
         $data = $request->only('title', 'content', 'auth_id', 'tags', 'image');

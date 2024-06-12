@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\AuthController;
 use GuzzleHttp\Psr7\Request;
@@ -49,4 +50,9 @@ Route::prefix('comment')->group(function () {
     Route::get('/show/{id}', [CommentController::class, 'show']);
     Route::put('/update/{id}', [CommentController::class, 'update']);
     Route::delete('/delete/{id}', [CommentController::class, 'destroy']);
+});
+
+Route::prefix('like')->group(function(){
+    Route::post('/add-like', [LikeController::class, 'addLike']);
+    
 });
