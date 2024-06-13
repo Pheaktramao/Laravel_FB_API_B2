@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\PostListResource;
-use App\Http\Resources\ShowPostResource;
+use App\Http\Resources\PostShowResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -16,10 +15,8 @@ class PostController extends Controller
     public function listPost()
     {
         $post = Post::all();
-        $post = ShowPostResource::collection($post);
         return response(['success' => true, 'Posts' => $post], 200);
     }
-
     /**
      * Store a newly created resource in storage.
      */
@@ -48,11 +45,8 @@ class PostController extends Controller
     public function getPost($id)
     {
         $post = Post::find($id);
-        $post = new ShowPostResource($post);
-        return [
-            'success' => true,
-            'Posts' => $post,
-        ];
+        $post = new PostShowResource($post);
+        return response(['success' => true, 'Post' => $post], 200);
     }
 
     /**
@@ -63,9 +57,9 @@ class PostController extends Controller
         $post = Post::find($id);
         $post->update($request->all());
         return [
-           'success' => true,
+            'success' => true,
             'data' => $post,
-           'message' => "Post updated successfully"
+            'message' => "Post updated successfully"
         ];
     }
 
@@ -77,8 +71,8 @@ class PostController extends Controller
         $post = Post::find($id);
         $post->delete();
         return [
-           'success' => true,
-           'message' => "Post deleted successfully"
+            'success' => true,
+            'message' => "Post deleted successfully"
         ];
     }
 }
