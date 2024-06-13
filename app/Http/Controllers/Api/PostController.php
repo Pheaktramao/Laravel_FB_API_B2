@@ -80,7 +80,7 @@ class PostController extends Controller
     }
 
 
-    // public function likePost(Request $request){
+    // public function Addlike(Request $request){
     //     $request->validate([
     //         'post_id'=> 'required',
 

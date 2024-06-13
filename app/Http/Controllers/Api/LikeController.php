@@ -4,40 +4,41 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Like;
-use App\Models\Post;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LikeController extends Controller
 {
-    public function like(Request $request, $postId)
-    {
-        // Validate the request
+    public function Addlike(Request $request){
         $request->validate([
-            'user_id' => 'required|exists:users,id',
+            'post_id' => 'required|exists:posts,id',
+        ]);
+        $like = Like::create([
+            'post_id' => $request->post_id,
+            'user_id' => Auth::id()
+        ]);
+        return response("Liked", 200);
+
+
+    }
+
+    public function Unlike(Request $request){
+        $request->validate([
+            'post_id' =>'required|exists:posts,id',
+
         ]);
 
-        // Find the post
-        $post = Post::find($postId);
+        $user_id = Auth::id();
+        $post_id = $request->post_id;
 
-        if (!$post) {
-            return response()->json(['message' => 'Post not found'], 404);
-        }
-
-        // Check if the user has already liked the post
-        $like = Like::where('post_id', $postId)
-            ->where('user_id', $request->user_id)
-            ->first();
+        $like = Like::where('post_id', $post_id)->where('user_id', $user_id)->first();
 
         if ($like) {
-            return response()->json(['message' => 'Post already liked'], 400);
+            # code...
+            $like->delete();
+            return response("Unliked", 200);
+        }else{
+            return response("Cannot like this post", 404);
         }
-
-        // Create a new like
-        $like = new Like();
-        $like->post_id = $postId;
-        $like->user_id = $request->user_id;
-        $like->save();
-
-        return response()->json(['message' => 'Post liked successfully']);
     }
 }
