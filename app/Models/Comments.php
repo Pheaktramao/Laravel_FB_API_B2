@@ -14,20 +14,6 @@ class Comments extends Model
         'user_id',
     ];
 
-    public function post()
-    {
-        return $this->belongsTo(Post::class, 'post_id', 'id');
-    }
-    public function user()
-    {
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
-
-    public static function list($params)
-    {
-        return self::query();
-    }
-
     public static function store($request, $id = null)
     {
         $data = $request->only('text', 'post_id', 'user_id');

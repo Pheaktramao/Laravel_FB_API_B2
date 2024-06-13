@@ -12,38 +12,50 @@ class CommentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function listComment()
     {
         $comment = Comments::all();
-        $comment = CommentListResource::collection($comment);
-        return response(['success' => true, 'data' =>$comment], 200);
+        return response(['success' => true, 'Comments' => $comment], 200);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function addComment(Request $request)
     {
-        $comment = Comments::create($request->all());
-        return response(['success' => true, 'data' =>$comment], 200);
+        $request->validate([
+            "text" => 'required',
+            "post_id" => 'required',
+        ]);
+        $comment = Comments::create([
+            'text' => $request->text,
+            'post_id' => $request->post_id,
+            'user_id' => Auth()->user()->id,
+        ]);
+       
+        return [
+            'success' => true,
+            'data' => $comment,
+            'message' => "Comment created successfully"
+        ];
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function getComment(string $id)
     {
         $comment = Comments::find($id);
-        return response(['success' => true, 'data' =>$comment], 200);
+        return response(['success' => true, 'data' => $comment], 200);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function updateComment(Request $request, string $id)
     {
-        Comments::store($request,$id);
-        return ["success" => true, "Message" =>"Comment updated successfully"];
+        Comments::store($request, $id);
+        return ["success" => true, "Message" => "Comment updated successfully"];
     }
 
     /**
@@ -52,6 +64,6 @@ class CommentController extends Controller
     public function destroy(string $id)
     {
         Comments::destroy($id);
-        return ["success" => true, "Message" =>"Comment deleted successfully"];
+        return ["success" => true, "Message" => "Comment deleted successfully"];
     }
 }
