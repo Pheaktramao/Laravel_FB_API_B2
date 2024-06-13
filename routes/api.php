@@ -17,9 +17,6 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // Authentication routes
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
-});
 
 // Route::middleware('auth:sanctum')->group(function () {
 // });
@@ -32,20 +29,25 @@ Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logo
 
 
 // ROUTES POSTS
-Route::prefix('post')->group(function () {
-    Route::get('/list', [PostController::class, 'index']);
-    Route::post('/create', [PostController::class, 'store']);
-    Route::get('/show/{id}', [PostController::class, 'show']);
-    Route::put('/update/{id}', [PostController::class, 'update']);
-    Route::delete('/delete/{id}', [PostController::class, 'destroy']);
-});
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/list-post', [PostController::class, 'listPost']);
+    Route::post('/add-post', [PostController::class, 'addPost']);
+    Route::get('/get-post/{id}', [PostController::class, 'getPost']);
+    Route::put('/update-post/{id}', [PostController::class, 'updatePost']);
+    Route::delete('/delete-post/{id}', [PostController::class, 'destroy']);
 
-
-// ROUTES COMMENTS
-Route::prefix('comment')->group(function () {
+    // Comment Router
     Route::get('/list', [CommentController::class, 'index']);
     Route::post('/create', [CommentController::class, 'store']);
     Route::get('/show/{id}', [CommentController::class, 'show']);
     Route::put('/update/{id}', [CommentController::class, 'update']);
     Route::delete('/delete/{id}', [CommentController::class, 'destroy']);
+
+    // Like Router
+    
 });
+
+
+// ROUTES COMMENTS
+
+
