@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostListResource;
+use App\Models\Like;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -77,4 +78,17 @@ class PostController extends Controller
             "Message" =>"Post deleted successfully"
     ];
     }
+
+
+    // public function likePost(Request $request){
+    //     $request->validate([
+    //         'post_id'=> 'required',
+
+    //     ]);
+    //     $like = Like::create([
+    //         'post_id'=> $request->post_id,
+    //         'user_id'=> Auth()->user()->id,
+    //     ]);
+    //     return response("Liked");
+    // }
 }
