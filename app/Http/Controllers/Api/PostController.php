@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostListResource;
+use App\Http\Resources\ShowPostResource;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -12,11 +13,11 @@ class PostController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function listPost()
     {
         $post = Post::all();
-        $post = PostListResource::collection($post);
-        return response(['success' => true, 'data' =>$post], 200);
+        $post = ShowPostResource::collection($post);
+        return response(['success' => true, 'Posts' => $post], 200);
     }
 
     /**
@@ -25,45 +26,47 @@ class PostController extends Controller
     public function addPost(Request $request)
     {
         $request->validate([
-            "image"=>'required',
-            "description"=>'required',
+            "image" => 'required',
+            "description" => 'required',
         ]);
         $post = Post::create([
-            'image'=>$request->image,
-            'description'=>$request->description,
-            'auth_id'=>Auth()->user()->id,
+            'image' => $request->image,
+            'description' => $request->description,
+            'auth_id' => Auth()->user()->id,
         ]);
         // Post::store($request);
         return [
-            'success' =>true,
-            'data' =>$post,
-            'message' =>"Post created successfully"
+            'success' => true,
+            'data' => $post,
+            'message' => "Post created successfully"
         ];
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function getPost($id)
     {
-        $post = Post::show($id);
+        $post = Post::find($id);
+        $post = new ShowPostResource($post);
         return [
             'success' => true,
-            'data'=> $post,
+            'Posts' => $post,
         ];
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function updatePost(Request $request, string $id)
     {
-        Post::store($request,$id);
+        $post = Post::find($id);
+        $post->update($request->all());
         return [
-            "success" => true, 
-            "Message" =>"Post updated successfully"
+           'success' => true,
+            'data' => $post,
+           'message' => "Post updated successfully"
         ];
-
     }
 
     /**
@@ -71,10 +74,11 @@ class PostController extends Controller
      */
     public function destroy(string $id)
     {
-        Post::destroy($id);
+        $post = Post::find($id);
+        $post->delete();
         return [
-            "success" => true, 
-            "Message" =>"Post deleted successfully"
-    ];
+           'success' => true,
+           'message' => "Post deleted successfully"
+        ];
     }
 }

@@ -26,11 +26,11 @@ Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logo
 
 // ROUTES POSTS
 Route::middleware('auth:sanctum')->group(function () {
-    Route::get('/list', [PostController::class, 'index']);
+    Route::get('/list-post', [PostController::class, 'listPost']);
     Route::post('/add-post', [PostController::class, 'addPost']);
-    Route::get('/show/{id}', [PostController::class, 'show']);
-    Route::put('/update/{id}', [PostController::class, 'update']);
-    Route::delete('/delete/{id}', [PostController::class, 'destroy']);
+    Route::get('/get-post/{id}', [PostController::class, 'getPost']);
+    Route::put('/update-post/{id}', [PostController::class, 'updatePost']);
+    Route::delete('/delete-post/{id}', [PostController::class, 'destroy']);
 
     // Comment Router
     Route::get('/list', [CommentController::class, 'index']);

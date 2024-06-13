@@ -18,7 +18,7 @@ class ShowPostResource extends JsonResource
             'id' => $this->id,
             'description' => $this->description,
             'image' => $this->image,
-            'auth_id' => $this->auth_id
+            'user' => $this->getUser,
         ];
     }
 }
