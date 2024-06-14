@@ -20,10 +20,6 @@ class Post extends Model
     {
         return $this->belongsTo(User::class, 'auth_id', 'id');
     }
-
-    
-
-
     // public static function store($request, $id = null)
     // {
     //     $data = $request->only('description', 'image', 'auth_id');
