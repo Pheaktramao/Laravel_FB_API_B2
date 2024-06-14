@@ -17,11 +17,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // Authentication routes
+<<<<<<< HEAD
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // // });
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
+=======
+
+// Route::middleware('auth:sanctum')->group(function () {
+>>>>>>> 13bdbcd58153b6d9e0999d99c85cfabc925ec7dc
 // });
 
 // ROUTES AUTHENTICATION
@@ -33,26 +38,27 @@ Route::prefix('auth')->group(function () {
     Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
 });
 
+
 // ROUTES POSTS
-// Route::get('/post/list', [PostController::class, 'index']);
-// Route::post('/post/create', [PostController::class, 'store']);
-// Route::get('/post/show/{id}', [PostController::class, 'show']);
-// Route::put('/post/update/{id}', [PostController::class, 'update']);
-// Route::delete('/post/delete/{id}', [PostController::class, 'destroy']);
-Route::prefix('post')->group(function () {
-    Route::get('/list', [PostController::class, 'index']);
-    Route::post('/create', [PostController::class, 'store']);
-    Route::get('/show/{id}', [PostController::class, 'show']);
-    Route::put('/update/{id}', [PostController::class, 'update']);
-    Route::delete('/delete/{id}', [PostController::class, 'destroy']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::get('/list-post', [PostController::class, 'listPost']);
+    Route::post('/add-post', [PostController::class, 'addPost']);
+    Route::get('/get-post/{id}', [PostController::class, 'getPost']);
+    Route::put('/update-post/{id}', [PostController::class, 'updatePost']);
+    Route::delete('/delete-post/{id}', [PostController::class, 'destroy']);
+
+    // Comment Router
+    Route::get('/list-comment', [CommentController::class, 'listComment']);
+    Route::post('/add-comment', [CommentController::class, 'addComment']);
+    Route::get('/get-comment/{id}', [CommentController::class, 'getComment']);
+    Route::put('/update-comment/{id}', [CommentController::class, 'updateComment']);
+    Route::delete('/delete/{id}', [CommentController::class, 'destroy']);
+
+    // Like Router
+    
 });
 
 
 // ROUTES COMMENTS
-Route::prefix('comment')->group(function () {
-    Route::get('/list', [CommentController::class, 'index']);
-    Route::post('/create', [CommentController::class, 'store']);
-    Route::get('/show/{id}', [CommentController::class, 'show']);
-    Route::put('/update/{id}', [CommentController::class, 'update']);
-    Route::delete('/delete/{id}', [CommentController::class, 'destroy']);
-});
+
+
