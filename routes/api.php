@@ -27,6 +27,11 @@ Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logo
 
 // ROUTES POSTS
 Route::middleware('auth:sanctum')->group(function () {
+
+    // Login and logout
+
+
+    // Post Router
     Route::get('/list', [PostController::class, 'index']);
     Route::post('/add-post', [PostController::class, 'addPost']);
     Route::get('/show/{id}', [PostController::class, 'show']);
