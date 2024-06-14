@@ -32,7 +32,7 @@ class CommentController extends Controller
             'post_id' => $request->post_id,
             'user_id' => Auth()->user()->id,
         ]);
-       
+
         return [
             'success' => true,
             'data' => $comment,
