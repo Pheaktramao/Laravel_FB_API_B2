@@ -26,16 +26,13 @@ Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logo
 
 // ROUTES POSTS
 Route::middleware('auth:sanctum')->group(function () {
-<<<<<<< HEAD
 
     // Login and logout
 
 
     // Post Router
     Route::get('/list', [PostController::class, 'index']);
-=======
     Route::get('/list-post', [PostController::class, 'listPost']);
->>>>>>> 7bf3b713b6f7b6d8f7306ad7793d2a2830f2332d
     Route::post('/add-post', [PostController::class, 'addPost']);
     Route::get('/get-post/{id}', [PostController::class, 'getPost']);
     Route::put('/update-post/{id}', [PostController::class, 'updatePost']);
