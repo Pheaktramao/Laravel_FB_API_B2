@@ -18,16 +18,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 // Authentication routes
-<<<<<<< HEAD
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
 // // });
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
-=======
 
 // Route::middleware('auth:sanctum')->group(function () {
->>>>>>> 13bdbcd58153b6d9e0999d99c85cfabc925ec7dc
 // });
 
 

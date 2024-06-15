@@ -25,6 +25,7 @@ class AuthController extends Controller
                 'phone'=> 'required|string|max:20',
                 'email'=> 'required|string|max:255',
                 'password'=> 'required|string',
+              
             ]);
 
             if ($validatorUser->fails()) {
@@ -40,6 +41,7 @@ class AuthController extends Controller
                 'phone' => $request->phone,
                 'email' => $request->email,
                 'password' =>  bcrypt($request->password),
+              
             ]);
             return Response()->json([
                 'status' => 'true',
