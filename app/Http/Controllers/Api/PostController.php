@@ -80,15 +80,4 @@ class PostController extends Controller
     }
 
 
-    // public function Addlike(Request $request){
-    //     $request->validate([
-    //         'post_id'=> 'required',
-
-    //     ]);
-    //     $like = Like::create([
-    //         'post_id'=> $request->post_id,
-    //         'user_id'=> Auth()->user()->id,
-    //     ]);
-    //     return response("Liked");
-    // }
 }
