@@ -3,6 +3,7 @@
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ForgatePasswordManager;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -24,12 +25,13 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// ROUTES AUTHENTICATION
 
+// ROUTES AUTHENTICATION
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+    Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
     Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
 });
 
@@ -51,3 +53,5 @@ Route::prefix('comment')->group(function () {
     Route::put('/update/{id}', [CommentController::class, 'update']);
     Route::delete('/delete/{id}', [CommentController::class, 'destroy']);
 });
+
+Route::post('/add-like', [PostController::class, 'aaddLike']);
