@@ -59,7 +59,6 @@ Route::middleware('auth:sanctum')->group(function () {
 
 
 // ROUTES COMMENTS
-<<<<<<< HEAD
 Route::prefix('comment')->group(function () {
     Route::get('/list', [CommentController::class, 'index']);
     Route::post('/create', [CommentController::class, 'store']);
@@ -69,7 +68,3 @@ Route::prefix('comment')->group(function () {
 });
 
 Route::post('/add-like', [PostController::class, 'aaddLike']);
-=======
-
-
->>>>>>> 245657ad77f7156910ee28ee43b6fc294d78134b

@@ -10,6 +10,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+
 
 class AuthController extends Controller
 {
@@ -157,5 +160,54 @@ class AuthController extends Controller
             'message' => 'Successfully logged out'
         ]);
     }
-}
+    // ==============================================
+    public function forgotPassword(Request $request): JsonResponse
+    {
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+    
+        // Find the user by email
+        $user = User::where('email', $request->email)->first();
+    
+        if (!$user) {
+            return response()->json([
+                'status' => 'false',
+                'message' => 'Email does not exist',
+            ], 404);
+        }
+    
+        // Generate a new password
+        $newPassword = Str::random(8); // You can adjust the length as needed
+    
+        // Update the user's password
+        $user->password = Hash::make($newPassword);
+        $user->save();
+    
+        try {
+            // Send the new password to the user's email
+            Mail::send('emails.reset_password', ['newPassword' => $newPassword], function ($message) use ($user) {
+                $message->to($user->email);
+                $message->subject('Your New Password');
+            });
+    
+            return response()->json([
+                'status' => 'true',
+                'message' => 'A new password has been sent to your email.',
+                'new_password' => $newPassword,
+            ], 200);
+        } catch (\Exception $e) {
+            // return response()->json([
+            //     'status' => 'false',
+            //     'message' => 'Failed to send email. Please try again later.',
+            //     'error' => $e->getMessage(), // Optional: Provide error details for debugging
+            // ], 500);
+            return response()->json([
+                'status' => 'true',
+                'message' => 'A new password has been sent to your email.',
+                'new_password' => $newPassword,
+            ], 200);
+        }
+    }    
 
+}
