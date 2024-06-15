@@ -138,10 +138,6 @@ class AuthController extends Controller
         //     'message' => 'Failed to send email. Please try again later.',
         //     'error' => $e->getMessage(), // Optional: Provide error details for debugging
         // ], 500);
-        // Mail::send('emails.reset_password', ['newPassword' => $newPassword], function ($message) use ($user) {
-        //     $message->to($user->email);
-        //     $message->subject('Your New Password');
-        // });
         return response()->json([
             'status' => 'true',
             'message' => 'A new password has been sent to your email.',
