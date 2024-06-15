@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\AuthController;
 use GuzzleHttp\Psr7\Request;
@@ -46,7 +47,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/delete/{id}', [CommentController::class, 'destroy']);
 
     // Like Router
-    
+    Route::post('/like-post', [LikeController::class, 'Addlike'])->middleware('auth');
+    Route::post('/unlike-post', [LikeController::class, 'Unlike'])->middleware('auth');
 });
 
 

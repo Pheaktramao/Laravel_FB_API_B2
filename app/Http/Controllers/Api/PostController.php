@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PostListResource;
 use App\Http\Resources\ShowPostResource;
+use App\Models\Like;
 use App\Models\Post;
 use Illuminate\Http\Request;
 
@@ -81,4 +82,6 @@ class PostController extends Controller
            'message' => "Post deleted successfully"
         ];
     }
+
+
 }
