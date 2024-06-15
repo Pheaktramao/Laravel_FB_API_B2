@@ -12,17 +12,21 @@ class Post extends Model
 
     protected $fillable = [
         'description',
-        'image',
-        'auth_id',
+        'image_id',
+        'auth_id',3
     ];
 
     public function getUser()
     {
         return $this->belongsTo(User::class, 'auth_id');
     }
+
+    public function media(){
+        return $this->hasMany(Medias::class, 'image_id', 'id');
+    }
     public static function store($request, $id = null)
     {
-        $data = $request->only('description', 'image', 'auth_id');
+        $data = $request->only('description', 'image', 'auth_id', 'image_id');
         $data = self::updateOrCreate(['id' => $id], $data);
         return $data;
     }
