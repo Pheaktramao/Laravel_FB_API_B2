@@ -19,13 +19,7 @@ class PostListResource extends JsonResource
             'description' => $this->description,
             'image' => $this->image,
             'auth_id' => $this->auth_id,
-            'user' => [
-                'id' => $this->users->id,
-                'first_name' => $this->users->first_name,
-                'last_name' => $this->users->last_name,
-                'phone' => $this->users->phone,
-                'email' => $this->users->email
-            ],
+            'user' => $this->user->name,
         ];
     }
 }

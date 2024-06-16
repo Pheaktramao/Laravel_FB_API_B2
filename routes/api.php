@@ -1,8 +1,14 @@
 <?php
 
 use App\Http\Controllers\Api\CommentController;
+
 use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\ImageController;
+
+use App\Http\Controllers\Api\ImageUploadController;
+use App\Http\Controllers\Api\LikeController;
+use App\Http\Controllers\Api\ImageController;
+
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\AuthController;
@@ -32,6 +38,7 @@ use Illuminate\Support\Facades\Route;
 
 
 // ROUTES AUTHENTICATION
+
 Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
@@ -43,6 +50,12 @@ Route::prefix('auth')->group(function () {
 
 // ROUTES POSTS
 Route::middleware('auth:sanctum')->group(function () {
+
+    // Login and logout
+
+
+    // Post Router
+    Route::get('/list', [PostController::class, 'index']);
     Route::get('/list-post', [PostController::class, 'listPost']);
 
     // Login and logout
@@ -54,6 +67,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/get-post/{id}', [PostController::class, 'getPost']);
     Route::put('/update-post/{id}', [PostController::class, 'updatePost']);
     Route::delete('/delete-post/{id}', [PostController::class, 'destroy']);
+    // Route::post('/upload', [ImageUploadController::class, 'upload']);
 
     // Comment Router
     Route::get('/list-comment', [CommentController::class, 'listComment']);
@@ -61,6 +75,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/get-comment/{id}', [CommentController::class, 'getComment']);
     Route::put('/update-comment/{id}', [CommentController::class, 'updateComment']);
     Route::delete('/delete/{id}', [CommentController::class, 'destroy']);
+
 
     // Like Router
     Route::post('/like-post', [LikeController::class, 'Addlike'])->middleware('auth');
