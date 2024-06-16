@@ -1,8 +1,16 @@
 <?php
 
 use App\Http\Controllers\Api\CommentController;
+
+use App\Http\Controllers\Api\LikeController;
+use App\Http\Controllers\Api\ImageController;
+
+use App\Http\Controllers\Api\ImageUploadController;
+
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\ForgatePasswordManager;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -22,7 +30,10 @@ use Illuminate\Support\Facades\Route;
 // // });
 // Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //     return $request->user();
+
+// Route::middleware('auth:sanctum')->group(function () {
 // });
+
 
 // ROUTES AUTHENTICATION
 
@@ -30,29 +41,60 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::middleware('auth:sanctum')->post('/logout', [AuthController::class, 'logout']);
+    Route::post('forgot-password', [AuthController::class, 'forgotPassword']);
     Route::get('/me', [AuthController::class, 'index'])->middleware('auth:sanctum');
 });
 
+
 // ROUTES POSTS
-// Route::get('/post/list', [PostController::class, 'index']);
-// Route::post('/post/create', [PostController::class, 'store']);
-// Route::get('/post/show/{id}', [PostController::class, 'show']);
-// Route::put('/post/update/{id}', [PostController::class, 'update']);
-// Route::delete('/post/delete/{id}', [PostController::class, 'destroy']);
-Route::prefix('post')->group(function () {
+Route::middleware('auth:sanctum')->group(function () {
+
+    // Login and logout
+
+
+    // Post Router
     Route::get('/list', [PostController::class, 'index']);
-    Route::post('/create', [PostController::class, 'store']);
-    Route::get('/show/{id}', [PostController::class, 'show']);
-    Route::put('/update/{id}', [PostController::class, 'update']);
-    Route::delete('/delete/{id}', [PostController::class, 'destroy']);
-});
+    Route::get('/list-post', [PostController::class, 'listPost']);
+
+    // Login and logout
 
 
-// ROUTES COMMENTS
-Route::prefix('comment')->group(function () {
-    Route::get('/list', [CommentController::class, 'index']);
-    Route::post('/create', [CommentController::class, 'store']);
-    Route::get('/show/{id}', [CommentController::class, 'show']);
-    Route::put('/update/{id}', [CommentController::class, 'update']);
+    // Post Router
+    Route::get('/list', [PostController::class, 'index']);
+    Route::post('/add-post', [PostController::class, 'addPost']);
+    Route::get('/get-post/{id}', [PostController::class, 'getPost']);
+    Route::put('/update-post/{id}', [PostController::class, 'updatePost']);
+    Route::delete('/delete-post/{id}', [PostController::class, 'destroy']);
+    // Route::post('/upload', [ImageUploadController::class, 'upload']);
+
+    // Comment Router
+    Route::get('/list-comment', [CommentController::class, 'listComment']);
+    Route::post('/add-comment', [CommentController::class, 'addComment']);
+    Route::get('/get-comment/{id}', [CommentController::class, 'getComment']);
+    Route::put('/update-comment/{id}', [CommentController::class, 'updateComment']);
     Route::delete('/delete/{id}', [CommentController::class, 'destroy']);
+
+
+    // Like Router
+    Route::post('/like-post', [LikeController::class, 'Addlike'])->middleware('auth');
+    Route::post('/unlike-post', [LikeController::class, 'Unlike'])->middleware('auth');
+    
+    // PROFILE ROUTER
+    Route::post('/add-profile', [ProfileController::class, 'store']);
+    Route::get('/get-profile/{id}', [ProfileController::class, 'show']);
 });
+
+// // ROUTES COMMENTS
+// Route::prefix('comment')->group(function () {
+//     Route::get('/list', [CommentController::class, 'index']);
+//     Route::post('/create', [CommentController::class, 'store']);
+//     Route::get('/show/{id}', [CommentController::class, 'show']);
+//     Route::put('/update/{id}', [CommentController::class, 'update']);
+//     Route::delete('/delete/{id}', [CommentController::class, 'destroy']);
+// });
+
+// Route::post('/add-like', [PostController::class, 'aaddLike']);
+// // Image Router
+// Route::post('/upload-image', [ImageController::class, 'store']);
+// Route::get('/get-image/{id}', [ImageController::class, 'show']);
+// Route::delete('/delete-image/{id}', [ImageController::class, 'destroy']);

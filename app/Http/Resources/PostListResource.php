@@ -16,17 +16,10 @@ class PostListResource extends JsonResource
     {
         return [
             'id' => $this->id,
-            'title' => $this->title,
-            'content' => $this->content,
-            'auth_id' => $this->auth_id,
+            'description' => $this->description,
             'image' => $this->image,
-            'user' => [
-                'id' => $this->users->id,
-                'first_name' => $this->users->first_name,
-                'last_name' => $this->users->last_name,
-                'phone' => $this->users->phone,
-                'email' => $this->users->email
-            ],
+            'auth_id' => $this->auth_id,
+            'user' => $this->user->name,
         ];
     }
 }

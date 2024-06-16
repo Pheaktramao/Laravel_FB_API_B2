@@ -5,33 +5,51 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Post extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'title',
-        'content',
+        'description',
         'auth_id',
-        'tags',
-        'image',
     ];
 
-    public function users()
+    public function getUser()
     {
-        return $this->belongsTo(User::class, 'auth_id', 'id');
+        return $this->belongsTo(User::class, 'auth_id');
     }
 
-    public static function list($params)
+    public function getAllLike(){
+        return $this->hasMany(Like::class, 'post_id');
+    }
+    // public function media(){
+    //     return $this->hasMany(Medias::class, 'image_id', 'id');
+    // }
+    public function getComments()
     {
-        return self::query();
+        return $this->hasMany(Comments::class);
     }
 
+    
     public static function store($request, $id = null)
     {
-        $data = $request->only('title', 'content', 'auth_id', 'tags', 'image');
+        $data = $request->only('description','auth_id');
         $data = self::updateOrCreate(['id' => $id], $data);
         return $data;
     }
+
+<<<<<<< HEAD
+<<<<<<< HEAD
+
+    
+=======
+    public function getAllLike(){
+        return $this->hasMany(Like::class, 'post_id');
+    }
+>>>>>>> like
+=======
+>>>>>>> post
 }

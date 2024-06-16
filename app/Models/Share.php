@@ -4,19 +4,17 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Comments extends Model
+class Share extends Model
 {
-    use HasFactory;
-    protected $fillable = [
-        'text',
-        'post_id',
-        'user_id',
-    ];
+    use HasFactory,SoftDeletes;
+
+    
 
     public static function store($request, $id = null)
     {
-        $data = $request->only('text', 'post_id', 'user_id');
+        $data = $request->only('description', 'post_id', 'auth_id');
         $data = self::updateOrCreate(['id' => $id], $data);
         return $data;
     }
