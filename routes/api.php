@@ -1,7 +1,9 @@
 <?php
 
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\AuthController;
 use GuzzleHttp\Psr7\Request;
 use Illuminate\Support\Facades\Route;
@@ -50,12 +52,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/get-comment/{id}', [CommentController::class, 'getComment']);
     Route::put('/update-comment/{id}', [CommentController::class, 'updateComment']);
     Route::delete('/delete/{id}', [CommentController::class, 'destroy']);
-
-    // Like Router
-    
 });
 
+// PROFILE ROUTER
+Route::post('/add-profile', [ProfileController::class, 'store']);
+Route::get('/get-profile/{id}', [ProfileController::class, 'show']);
 
-// ROUTES COMMENTS
-
-
+// Image Router
+Route::post('/upload-image', [ImageController::class, 'store']);
+Route::get('/get-image/{id}', [ImageController::class, 'show']);
+Route::delete('/delete-image/{id}', [ImageController::class, 'destroy']);
