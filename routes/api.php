@@ -84,17 +84,3 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/get-profile/{id}', [ProfileController::class, 'show']);
 });
 
-// // ROUTES COMMENTS
-// Route::prefix('comment')->group(function () {
-//     Route::get('/list', [CommentController::class, 'index']);
-//     Route::post('/create', [CommentController::class, 'store']);
-//     Route::get('/show/{id}', [CommentController::class, 'show']);
-//     Route::put('/update/{id}', [CommentController::class, 'update']);
-//     Route::delete('/delete/{id}', [CommentController::class, 'destroy']);
-// });
-
-// Route::post('/add-like', [PostController::class, 'aaddLike']);
-// // Image Router
-// Route::post('/upload-image', [ImageController::class, 'store']);
-// Route::get('/get-image/{id}', [ImageController::class, 'show']);
-// Route::delete('/delete-image/{id}', [ImageController::class, 'destroy']);
