@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CommentController;
-
+use App\Http\Controllers\Api\FriendController;
 use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\ImageController;
 
@@ -48,6 +48,11 @@ Route::prefix('auth')->group(function () {
 
 // ROUTES POSTS
 Route::middleware('auth:sanctum')->group(function () {
+
+    Route::post('/friend-request/send', [FriendController::class, 'sendFriendRequest']);
+    Route::get('/friend-request/pending', [FriendController::class, 'getPendingFriendRequests']);
+    Route::post('/friend-request/accept', [FriendController::class, 'acceptFriendRequest']);
+    Route::post('/friend-request/reject', [FriendController::class, 'rejectFriendRequest']);
 
 
     // Post Router

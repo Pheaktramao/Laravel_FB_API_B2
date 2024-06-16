@@ -44,6 +44,7 @@ class User extends Authenticatable
         'remember_token',
     ];
 
+
     /**
      * Get the attributes that should be cast.
      *
@@ -63,5 +64,36 @@ class User extends Authenticatable
 
     public function like(){
         return $this->hasMany(Like::class);
+    }
+    public function friends()
+    {
+        return $this->belongsToMany(User::class, 'friends', 'user_id', 'friend_id')
+                    ->withPivot('status')
+                    ->withTimestamps();
+    }
+
+    public function friendRequests()
+    {
+        return $this->hasMany(Friend::class, 'friend_id')->where('status', 'pending');
+    }
+
+    public function sentFriendRequests()
+    {
+        return $this->hasMany(Friend::class, 'user_id')->where('status', 'pending');
+    }
+
+    public function isFriendsWith(User $user)
+    {
+        return (bool) $this->friends()->where('friend_id', $user->id)->count();
+    }
+
+    public function hasSentFriendRequestTo(User $user)
+    {
+        return (bool) $this->sentFriendRequests()->where('friend_id', $user->id)->count();
+    }
+
+    public function hasReceivedFriendRequestFrom(User $user)
+    {
+        return (bool) $this->friendRequests()->where('user_id', $user->id)->count();
     }
 }
