@@ -2,7 +2,9 @@
 
 use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\LikeController;
+use App\Http\Controllers\Api\ImageController;
 use App\Http\Controllers\Api\PostController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForgatePasswordManager;
 use GuzzleHttp\Psr7\Request;
@@ -63,16 +65,23 @@ Route::middleware('auth:sanctum')->group(function () {
     // Like Router
     Route::post('/like-post', [LikeController::class, 'Addlike'])->middleware('auth');
     Route::post('/unlike-post', [LikeController::class, 'Unlike'])->middleware('auth');
+    
+    // PROFILE ROUTER
+    Route::post('/add-profile', [ProfileController::class, 'store']);
+    Route::get('/get-profile/{id}', [ProfileController::class, 'show']);
 });
 
+// // ROUTES COMMENTS
+// Route::prefix('comment')->group(function () {
+//     Route::get('/list', [CommentController::class, 'index']);
+//     Route::post('/create', [CommentController::class, 'store']);
+//     Route::get('/show/{id}', [CommentController::class, 'show']);
+//     Route::put('/update/{id}', [CommentController::class, 'update']);
+//     Route::delete('/delete/{id}', [CommentController::class, 'destroy']);
+// });
 
-// ROUTES COMMENTS
-Route::prefix('comment')->group(function () {
-    Route::get('/list', [CommentController::class, 'index']);
-    Route::post('/create', [CommentController::class, 'store']);
-    Route::get('/show/{id}', [CommentController::class, 'show']);
-    Route::put('/update/{id}', [CommentController::class, 'update']);
-    Route::delete('/delete/{id}', [CommentController::class, 'destroy']);
-});
-
-Route::post('/add-like', [PostController::class, 'aaddLike']);
+// Route::post('/add-like', [PostController::class, 'aaddLike']);
+// // Image Router
+// Route::post('/upload-image', [ImageController::class, 'store']);
+// Route::get('/get-image/{id}', [ImageController::class, 'show']);
+// Route::delete('/delete-image/{id}', [ImageController::class, 'destroy']);
