@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Post extends Model
 {
@@ -27,6 +28,12 @@ class Post extends Model
     // public function media(){
     //     return $this->hasMany(Medias::class, 'image_id', 'id');
     // }
+    public function getComments()
+    {
+        return $this->hasMany(Comments::class);
+    }
+
+    
     public static function store($request, $id = null)
     {
         $data = $request->only('description','auth_id');
