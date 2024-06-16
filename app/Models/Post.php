@@ -35,6 +35,12 @@ class Post extends Model
         return $data;
     }
 
+<<<<<<< HEAD
 
     
+=======
+    public function getAllLike(){
+        return $this->hasMany(Like::class, 'post_id');
+    }
+>>>>>>> like
 }

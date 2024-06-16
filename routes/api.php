@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\ForgatePasswordManager;
@@ -41,6 +42,12 @@ Route::prefix('auth')->group(function () {
 // ROUTES POSTS
 Route::middleware('auth:sanctum')->group(function () {
     Route::get('/list-post', [PostController::class, 'listPost']);
+
+    // Login and logout
+
+
+    // Post Router
+    Route::get('/list', [PostController::class, 'index']);
     Route::post('/add-post', [PostController::class, 'addPost']);
     Route::get('/get-post/{id}', [PostController::class, 'getPost']);
     Route::put('/update-post/{id}', [PostController::class, 'updatePost']);
@@ -54,7 +61,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::delete('/delete/{id}', [CommentController::class, 'destroy']);
 
     // Like Router
-    
+    Route::post('/like-post', [LikeController::class, 'Addlike'])->middleware('auth');
+    Route::post('/unlike-post', [LikeController::class, 'Unlike'])->middleware('auth');
 });
 
 
