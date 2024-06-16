@@ -9,18 +9,6 @@ use Illuminate\Support\Facades\Storage;
 class Medias extends Model
 {
     use HasFactory;
-    protected $fillable = ['image'];
-    public static function store($request, $id= null){
-        $data = $request->only('image');
-        if($request->hasFile('image')){
-            $file = $request->file('image');
-            $extension = $file->getClientOriginalExtension();
-            $filename = time().'.'.$extension;
-            $path = $file->storeAs('uploads/images', $filename, 'public');
-            $data['image'] = Storage::url($path);
+    protected $fillable = ['path'];
 
-        }   
-        $data = self::updateOrCreate(['id'=>$id], $data);
-        return $data;
-    }
 }

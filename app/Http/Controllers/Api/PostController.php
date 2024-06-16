@@ -27,11 +27,11 @@ class PostController extends Controller
     public function addPost(Request $request)
     {
         $request->validate([
-            "image" => 'required',
+            // "image_id" => 'required',
             "description" => 'required',
         ]);
-        $post = Post::create([
-            'image' => $request->image,
+        $post = Post::store([
+            // 'image_id' => $request->image_id,
             'description' => $request->description,
             'auth_id' => Auth()->user()->id,
         ]);

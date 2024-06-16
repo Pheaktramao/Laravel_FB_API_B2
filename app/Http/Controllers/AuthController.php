@@ -10,7 +10,33 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
-
+//  /**
+//      * @OA\Post(
+//      *     path="/api/auth/register",
+//      *     tags={"Register"},
+//      *     summary="Register a new user",
+//      *     @OA\RequestBody(
+//      *         @OA\JsonContent(
+//      *             type="object",
+//      *             @OA\Property(property="first_name", type="string"),
+//      *             @OA\Property(property="last_name", type="string"),
+//      *             @OA\Property(property="phone", type="string"),
+//      *             @OA\Property(property="dateOfBirth", type="string"),
+//      *             @OA\Property(property="email", type="string"),
+//      *             @OA\Property(property="password", type="string"),
+//      *         )
+//      *     ),
+//      *     @OA\Response(
+//      *         response=201,
+//      *         description="Successful response",
+//      *         @OA\JsonContent(
+//      *             type="object",
+//      *             @OA\Property(property="message", type="string"),
+//      *             @OA\Property(property="accessToken", type="string")
+//      *         )
+//      *     )
+//      * )
+//      */
 class AuthController extends Controller
 {
 

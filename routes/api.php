@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CommentController;
+use App\Http\Controllers\Api\ImageUploadController;
 use App\Http\Controllers\Api\LikeController;
 use App\Http\Controllers\Api\PostController;
 use App\Http\Controllers\AuthController;
@@ -38,6 +39,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/get-post/{id}', [PostController::class, 'getPost']);
     Route::put('/update-post/{id}', [PostController::class, 'updatePost']);
     Route::delete('/delete-post/{id}', [PostController::class, 'destroy']);
+    Route::post('/upload', [ImageUploadController::class, 'upload']);
 
     // Comment Router
     Route::get('/list', [CommentController::class, 'index']);
