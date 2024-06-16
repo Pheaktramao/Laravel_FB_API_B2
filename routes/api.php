@@ -49,23 +49,13 @@ Route::prefix('auth')->group(function () {
 // ROUTES POSTS
 Route::middleware('auth:sanctum')->group(function () {
 
-    // Login and logout
-
 
     // Post Router
-    Route::get('/list', [PostController::class, 'index']);
-    Route::get('/list-post', [PostController::class, 'listPost']);
-
-    // Login and logout
-
-
-    // Post Router
-    Route::get('/list', [PostController::class, 'index']);
+    Route::get('/list', [PostController::class, 'listPost']);
     Route::post('/add-post', [PostController::class, 'addPost']);
     Route::get('/get-post/{id}', [PostController::class, 'getPost']);
     Route::put('/update-post/{id}', [PostController::class, 'updatePost']);
     Route::delete('/delete-post/{id}', [PostController::class, 'destroy']);
-    // Route::post('/upload', [ImageUploadController::class, 'upload']);
 
     // Comment Router
     Route::get('/list-comment', [CommentController::class, 'listComment']);
@@ -83,4 +73,3 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/add-profile', [ProfileController::class, 'store']);
     Route::get('/get-profile/{id}', [ProfileController::class, 'show']);
 });
-

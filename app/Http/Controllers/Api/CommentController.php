@@ -12,10 +12,10 @@ class CommentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function listComment()
+    public function index()
     {
-        $comment = Comments::all();
-        return response(['success' => true, 'Comments' => $comment], 200);
+        $comments = Comments::all();
+        return response()->json(['success' => true, 'data' => $comments], 200);
     }
 
     /**
@@ -27,7 +27,7 @@ class CommentController extends Controller
             "text" => 'required',
             "post_id" => 'required',
         ]);
-        $comment = Comments::create([
+        $comment = Comments::store([
             'text' => $request->text,
             'post_id' => $request->post_id,
             'user_id' => Auth()->user()->id,
@@ -35,7 +35,6 @@ class CommentController extends Controller
 
         return [
             'success' => true,
-            'data' => $comment,
             'message' => "Comment created successfully"
         ];
     }

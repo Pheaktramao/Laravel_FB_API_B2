@@ -13,7 +13,9 @@ class Comments extends Model
         'post_id',
         'user_id',
     ];
-
+    public function post(){
+        return $this->belongsTo(Post::class, 'post_id');
+    }
     public static function store($request, $id = null)
     {
         $data = $request->only('text', 'post_id', 'user_id');

@@ -10,14 +10,56 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Carbon\Carbon;
-
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 
 
 class AuthController extends Controller
 {
+
+/**
+ * @OA\Post(
+ *     path="/api/register",
+ *     summary="Register a new user",
+ *     tags={"Authentication"},
+ *     @OA\RequestBody(
+ *         @OA\JsonContent(
+ *             required={"first_name", "last_name", "dateOfBirth", "phone", "email", "password"},
+ *             @OA\Property(property="first_name", type="string"),
+ *             @OA\Property(property="last_name", type="string"),
+ *             @OA\Property(property="dateOfBirth", type="string"),
+ *             @OA\Property(property="phone", type="string"),
+ *             @OA\Property(property="email", type="string"),
+ *             @OA\Property(property="password", type="string")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="Success",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="boolean"),
+ *             @OA\Property(property="message", type="string"),
+ *             @OA\Property(property="token", type="string")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=422,
+ *         description="Validation error",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string"),
+ *             @OA\Property(property="errors", type="object")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Server error",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string", example="Server error message")
+ *         )
+ *     )
+ * )
+ */
+
 
     public function register(Request $request): JsonResponse
     {
@@ -91,6 +133,50 @@ class AuthController extends Controller
         ]);
     }
 
+    /**
+ * @OA\Post(
+ *     path="/api/create-user",
+ *     summary="Create a new user",
+ *     tags={"User Management"},
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\JsonContent(
+ *             required={"name", "email", "password"},
+ *             @OA\Property(property="name", type="string", example="John Doe"),
+ *             @OA\Property(property="email", type="string", format="email", example="user@example.com"),
+ *             @OA\Property(property="password", type="string", example="password")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=200,
+ *         description="User created successfully",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="boolean", example=true),
+ *             @OA\Property(property="message", type="string", example="User Created Successfully"),
+ *             @OA\Property(property="token", type="string", example="plaintexttoken")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Validation error",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="boolean", example=false),
+ *             @OA\Property(property="message", type="string", example="Validation error"),
+ *             @OA\Property(property="errors", type="object")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=500,
+ *         description="Server error",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="boolean", example=false),
+ *             @OA\Property(property="message", type="string", example="Server error message")
+ *         )
+ *     )
+ * )
+ *
+ */
+
 
     public function createUser(Request $request)
     {
@@ -101,7 +187,7 @@ class AuthController extends Controller
                 [
                     'name' => 'required|string',
                     'email' => 'required|email|unique:users,email',
-                    'password' => 'required'
+                    'password' => 'required|string'
                 ]
             );
 
@@ -139,6 +225,33 @@ class AuthController extends Controller
     }
 
 
+
+    /**
+ * @OA\Post(
+ *     path="/api/logout",
+ *     summary="Logout a user",
+ *     tags={"Authentication"},
+ *     security={
+ *         {"bearerAuth": {}}
+ *     },
+ *     @OA\Response(
+ *         response=200,
+ *         description="Successfully logged out",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="status", type="boolean"),
+ *             @OA\Property(property="message", type="string")
+ *         )
+ *     ),
+ *     @OA\Response(
+ *         response=401,
+ *         description="Unauthorized",
+ *         @OA\JsonContent(
+ *             @OA\Property(property="message", type="string"
+ *         )
+ *     )
+ * )
+ *
+ */
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
@@ -152,8 +265,6 @@ class AuthController extends Controller
             'message' => 'Successfully logged out'
         ]);
     }
-}
-    // ==============================================
     public function forgotPassword(Request $request): JsonResponse
     {
         $request->validate([
@@ -202,3 +313,4 @@ class AuthController extends Controller
             ], 200);
         }
     }    
+}

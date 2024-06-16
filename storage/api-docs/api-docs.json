@@ -8,24 +8,101 @@
         "/api/register": {
             "post": {
                 "tags": [
-                    "Register"
+                    "Authentication"
                 ],
-                "summary": "register data",
-                "description": "",
-                "operationId": "e62b6d5b548be003e473107717338fc7",
-                "parameters": [
-                    {
-                        "name": "name",
-                        "in": "query",
-                        "description": "Provide your name",
-                        "required": true
+                "summary": "Register a new user",
+                "operationId": "8a56853624e025573120a09a4c75d468",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "first_name",
+                                    "last_name",
+                                    "dateOfBirth",
+                                    "phone",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "first_name": {
+                                        "type": "string"
+                                    },
+                                    "last_name": {
+                                        "type": "string"
+                                    },
+                                    "dateOfBirth": {
+                                        "type": "string"
+                                    },
+                                    "phone": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
                     }
-                ],
+                },
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Success",
                         "content": {
-                            "application/json": {}
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "boolean"
+                                        },
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "token": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Validation error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string"
+                                        },
+                                        "errors": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Server error",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Server error message"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
                         }
                     }
                 }
@@ -36,7 +113,7 @@
         "securitySchemes": {
             "bearerAuth": {
                 "type": "http",
-                "name": "bearerAuth",
+                "name": "Authorization",
                 "in": "header",
                 "bearerFormat": "JWT",
                 "scheme": "bearer"

@@ -22,27 +22,17 @@ class Post extends Model
         return $this->belongsTo(User::class, 'auth_id');
     }
 
-    public function getAllLike(){
+    public function like(){
         return $this->hasMany(Like::class, 'post_id');
     }
     // public function media(){
     //     return $this->hasMany(Medias::class, 'image_id', 'id');
     // }
-    public function getComments()
+    public function comments()
     {
         return $this->hasMany(Comments::class);
     }
+   
 
-    
-    public static function store($request, $id = null)
-    {
-        $data = $request->only('description','auth_id');
-        $data = self::updateOrCreate(['id' => $id], $data);
-        return $data;
-    }
-
-    public function getAllLike(){
-        return $this->hasMany(Like::class, 'post_id');
-    }
 
 }

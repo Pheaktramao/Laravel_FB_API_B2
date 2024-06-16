@@ -18,7 +18,8 @@ class PostController extends Controller
     public function listPost()
     {
         $post = Post::all();
-        return response(['success' => true, 'Posts' => $post], 200);
+        $post = new PostListResource($post);
+        return response(['success' => true, 'data' => $post], 200);
     }
     /**
      * Store a newly created resource in storage.
@@ -29,7 +30,7 @@ class PostController extends Controller
             // "image_id" => 'required',
             "description" => 'required',
         ]);
-        $post = Post::store([
+        $post = Post::create([
             // 'image_id' => $request->image_id,
             'description' => $request->description,
             'auth_id' => Auth()->user()->id,
@@ -37,7 +38,7 @@ class PostController extends Controller
         // Post::store($request);
         return [
             'success' => true,
-            'data' => $post,
+            // 'data' => $post,
             'message' => "Post created successfully"
         ];
     }
